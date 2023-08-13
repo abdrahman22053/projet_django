@@ -3,18 +3,13 @@ from django.shortcuts import render, get_object_or_404
 # Create your views here.
 
 
-from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.decorators import login_required
 #from django.utils.encoding import force_bytes, force_text
 from django.shortcuts import redirect, render
-from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.core.mail import send_mail, EmailMessage
-from project import settings
-from django.contrib.sites.shortcuts import get_current_site
-from django.template.loader import render_to_string
 from . tokens import generateToken
 from django.contrib.auth.models import User
 from .models import UserProfile
@@ -25,43 +20,8 @@ def home(request, *args, **kwargs):
     return render(request, 'authentification/signin.html')
 
 
+
 from django.contrib.auth import login
-
-def signup(request):
-    if request.method == "POST":
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['password']
-        confirmpwd = request.POST['comfirmpwd']
-        if User.objects.filter(username=username):
-            messages.error(request, 'Username already taken. Please try another.')
-            return redirect('signup')
-        if User.objects.filter(email=email):
-            messages.error(request, 'This email is already associated with an account.')
-            return redirect('signup')
-        if len(username) >= 10:
-            messages.error(request, 'Username must not be more than 10 characters.')
-            return redirect('signup')
-        if len(username) <= 5:
-            messages.error(request, 'Username must be at least 5 characters.')
-            return redirect('signup')
-        if not username.isalnum():
-            messages.error(request, 'Username must be alphanumeric.')
-            return redirect('signup')
-        if password != confirmpwd:
-            messages.error(request, 'The passwords did not match.')
-            return redirect('signup')
-        
-        # Create user and automatically activate the account
-        my_user = User.objects.create_user(username, email, password)
-        login(request, my_user)  # Log the user in immediately
-        messages.success(request, 'Your account has been successfully created and activated.')
-        #return redirect('home')  # Redirect to the desired page after signup
-        return render(request, 'authentification/signin.html')    
-
-        
-    return render(request, 'authentification/signup.html')
-
 
 
 
@@ -128,14 +88,15 @@ def activate(request, uidb64, token):
 
 
 
-@login_required
+@login_required(login_url='signin')
 def user_list(request):
     users = User.objects.all()
     return render(request, 'users/user_list.html', {'users': users})
 
 
 
-@login_required
+@login_required(login_url='signin')
+
 def user_create(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -156,7 +117,8 @@ def user_create(request):
     return render(request, 'users/user_create.html', {'roles': UserProfile._meta.get_field('role').choices})
 
 
-@login_required
+@login_required(login_url='signin')
+
 def user_update(request, user_id):
     user = User.objects.get(id=user_id)
     profile = UserProfile.objects.get(user=user)
@@ -171,7 +133,7 @@ def user_update(request, user_id):
     return render(request, 'users/user_update.html', {'user': user, 'profile': profile, 'roles': UserProfile._meta.get_field('role').choices})
 
 
-@login_required
+@login_required(login_url='signin')
 def user_delete(request, user_id):
     user = get_object_or_404(User, id=user_id)
     profile =  get_object_or_404(UserProfile, user=user)
@@ -179,8 +141,3 @@ def user_delete(request, user_id):
     profile.delete()
     return redirect('user_list')
 
-    # def delete_file(request, pk):
-    # file = get_object_or_404(UploadedFile, pk=pk)
-    # file.delete()
-    # return redirect('file_list')
-   # return render(request, 'users/user_delete.html', {'user': user})
