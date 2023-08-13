@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<br><br>
+
+<a class="btn btn-primary" href="#">SignUp</a>
+<a class="btn btn-primary" href="#">SignIn</a>
+
+<ul>
+{% for pdf_document in pdf_documents %}
+<li><a href="{{ pdf_document.pdf_file.url }}" target="_blank" download="{{ pdf_document.pdf_file.name }}">{{ pdf_document.pdf_file.name }}</a></li>
+{% endfor %}
+</ul>
+
+{% endblock %}

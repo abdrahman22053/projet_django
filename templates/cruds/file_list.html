@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+<!-- {% include 'parts/navbar.html' %} -->
+
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row mt-5">
+    <div class="col-md-6">
+      <h2>Liste des fichiers</h2>
+    </div>
+    <div class="col-md-6 text-right">
+      <a href="{% url 'upload_file' %}" class="btn btn-success">Ajouter un lettre</a>
+    </div>
+  </div>
+  <table class="table table-striped table-hover">
+    <thead >
+      <tr>
+        <th scope="col">Titre</th>
+        <th scope="col">Date d'archivage</th> 
+        <th scope="col">Description</th> 
+        <th scope="col" colspan="2">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for file in files %}
+        <tr>
+          <td>{{ file.title }}</td>
+          <td>{{ file.cerated }}</td>
+          <td>{{ file.description }}</td>
+          <td>
+            <a href="{{ file.file.url }}" class="btn btn-primary" target="_blank">Télécharger</a>
+            <a href="#" class="btn btn-info" onclick="printFile('{{ file.file.url }}')">Imprimer</a>
+            <a href="{% url 'delete_file' file.pk %}" class="btn btn-danger">Supprimer</a>
+          </td>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script>
+  function printFile(fileUrl) {
+    const printWindow = window.open(fileUrl, '_blank');
+    printWindow.addEventListener('load', () => {
+      printWindow.print();
+    });
+  }
+</script>
+
+
+{% endblock %}

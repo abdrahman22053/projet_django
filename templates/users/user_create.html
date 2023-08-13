@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="b-example-divider bg-light  border-secondary mb-3" style="height: 2.4rem; box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);"></div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+        <div class="well">
+          <div class="b-example-divider bg-light  border-secondary mb-3" style="display: flex; justify-content: center; align-items: center; height: 5.4rem;border-radius: 10px; box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);">
+            <fieldset class="fsStyle">
+              <legend class="legendStyle">
+                  <a data-toggle="collapse" data-target="#demo" href="#" >Ajouter un utilisateur               
+                       </a>
+              </legend>
+             
+            </fieldset>  
+          </div>             
+        </div>
+    </div>
+</div>
+ 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des utilisateurs</title>
+ 
+
+</head>
+<body>
+
+   
+        <a href="{% url 'user_list' %}" class="btn btn-secondary mt-3">Retour à la liste</a>
+<!--   
+            <div class="alert alert-danger mt-3" role="alert">
+
+            </div> -->
+            {% for message in messages %}
+            <strong><i style="color: green;">{{ message }}</i></strong>
+            {% endfor %} 
+          <div class="d-none text-center alert alert-danger mt-3 col-md-6" role="alert" id="alert" >
+             Tous les champs sont obligatoires
+          </div>
+        <form  method="post" class="mt-4">
+          {% csrf_token %}
+            <div class="form-colmn">
+              <div class="form-group row">
+                <label for="username" class="col-md-2 col-form-label">Username :</label>
+                <div class="col-md-6">
+                  <input type="text" id="username" name="username" class="form-control" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="login" class="col-md-2 col-form-label">E-mail :</label>
+                <div class="col-md-6">
+                  <input type="email" id="email" name="email" class="form-control" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="password" class="col-md-2 col-form-label">Mot de passe :</label>
+                <div class="col-md-6">
+                  <input type="password" id="password" name="password" class="form-control" required>
+                </div>
+              </div>
+  
+              <div class="form-group row">
+                <label for="profile" class="col-md-2 col-form-label">Rôle :</label>
+                <div class="col-md-6">
+                  <select name="role" id="profile" class="form-control " required>
+                      <option selected disabled> Rôles </option>
+                      {% for value, label in roles %}
+                        <option value="{{ value }}">{{ label }}</option>
+                      {% endfor %}
+                    </select>
+                </div>
+              </div>
+              <div class="form-group col-md-4 mt-4">
+                <button type="submit" class="btn btn-primary mb-4 float-right">Enregistrer</button>
+              </div>
+            </div>
+          </form>
+    </div>
+ 
+ <!-- Inclure le lien vers le fichier JavaScript de Bootstrap -->
+ <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+ <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
+
+{% endblock %}
+

@@ -1,0 +1,41 @@
+{% load static %}
+
+{% block content %}
+
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="{% static 'js/main.js' %}">
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center">Login Here</h2>
+                </div>
+                <div class="card-body">
+                    <form action="/signin" method="post">
+                        {% csrf_token %}
+                        {% for message in messages %}
+                            <strong><i style="color: green;">{{ message }}</i></strong>
+                        {% endfor %} 
+
+                        <div class="mb-4">
+                            <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username here" required>
+                        </div>
+                        <div class="mb-4">
+                            <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password here" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+{% endblock %}

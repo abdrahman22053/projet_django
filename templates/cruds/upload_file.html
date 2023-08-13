@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center mt-5"> <!-- Ajout de la classe mt-5 pour un espace en haut -->
+    <div class="col-md-6">
+      <div></div>
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Ajouter un lettre</h3>
+        </div>
+        <div class="card-body">
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary form-control">Ajouter</button>
+          </form>
+          <!-- <a href="{% url 'file_list' %}" class="btn btn-secondary mt-3">Retour à la liste des fichiers</a> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
