@@ -1,11 +1,5 @@
 from django.db import models
 from datetime import datetime
-class PdfDocument(models.Model):
-    pdf_file = models.FileField(upload_to='pdf_files/')
-
-    def __str__(self):
-        return self.pdf_file.name  #Utilisez le nom du fichier comme titre par défaut
-    
 
 
 class UploadedFile(models.Model):

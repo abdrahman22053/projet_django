@@ -14,4 +14,4 @@ class UploadedFileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
             for field_name in self.fields:
-                self.fields[field_name].label = False
+                self.fields[field_name].label = False  

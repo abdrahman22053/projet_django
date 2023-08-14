@@ -40,18 +40,18 @@ def signin(request):
         authenticated_user = authenticate(username=username, password=password)
         
         if authenticated_user is not None:
-            if user.is_active:
-                login(request, authenticated_user)
-                firstname = authenticated_user.first_name
-                request.session['is_auth'] = True
-                  # Rediriger en fonction du rôle de l'utilisateur
-                if user.userprofile.role == 'Directeur de l\'informatique':
-                    return render(request, 'users/user_list.html', {"firstname": firstname})
-                else:
-                    return render(request, 'cruds/file_list.html', {"firstname": firstname})
+            
+            login(request, authenticated_user)
+            request.session['is_auth'] = True
+
+
+            # Rediriger en fonction du rôle de l'utilisateur
+            if user.userprofile.role == 'Directeur de l\'informatique':
+                return redirect('user_list')
+                # request.session['role'] = 'admin'
             else:
-                messages.error(request, 'You have not confirmed your email. Please confirm your email to activate your account.')
-                return redirect('signin')
+                return redirect('file_list')
+
         else:
             messages.error(request, 'Bad authentication. Please check your username and password.')
             return redirect('signin')
@@ -59,41 +59,33 @@ def signin(request):
     return render(request, 'authentification/signin.html')
 
 
+# def signout(request):
+#     logout(request)
+#     request.session.clear()
+#     messages.success(request, 'logout successfully!')
+#     return redirect('signin')    
+
 def signout(request):
+    # Redirection avant de supprimer les sessions
+    redirect_url = 'signin'  
     logout(request)
-    request.session.clear()
-    messages.success(request, 'logout successfully!')
-    return render(request, 'authentification/signin.html')    
-
-
-def activate(request, uidb64, token):
-    try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
-        my_user = User.objects.get(pk=uid)
-    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
-        my_user = None
-
-    if my_user is not None and generateToken.check_token(my_user, token):
-        my_user.is_active  = True        
-        my_user.save()
-        messages.success(request, "You are account is activated you can login by filling the form below.")
-        return redirect("signin")
-    else:
-        messages.success(request, 'Activation failed please try again')
-        return redirect('home')
+    #messages.success(request, 'Logout successfully!')
+    
+    response = redirect(redirect_url)
+    response['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = 'Fri, 01 Jan 1990 00:00:00 GMT'
+    
+    return response
 
 
 
-# usercrud/views.py
-
-
+# usercrud
 
 @login_required(login_url='signin')
 def user_list(request):
     users = User.objects.all()
     return render(request, 'users/user_list.html', {'users': users})
-
-
 
 @login_required(login_url='signin')
 
@@ -115,8 +107,6 @@ def user_create(request):
         UserProfile.objects.create(user=user, role=role)
         return redirect('user_list')
     return render(request, 'users/user_create.html', {'roles': UserProfile._meta.get_field('role').choices})
-
-
 @login_required(login_url='signin')
 
 def user_update(request, user_id):
