@@ -1,12 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="b-example-divider bg-light  border-secondary mb-3" style="height: 2.4rem; box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);"></div>
 <div class="container">
   <div class="row">
     <div class="col-lg-12">
         <div class="well">
-          <div class="b-example-divider bg-light  border-secondary mb-3" style="display: flex; justify-content: center; align-items: center; height: 5.4rem;border-radius: 10px; box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);">
+          <div class="b-example-divider bg-light   mt-5" style="display: flex; justify-content: center; align-items: center; height: 5.4rem;border-radius: 10px; box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);">
             <fieldset class="fsStyle">
               <legend class="legendStyle">
                   <a data-toggle="collapse" data-target="#demo" href="#" >Mdofier l'utilisateur {{user.username}}               
@@ -32,7 +31,6 @@
 <body>
 
    
-        <a href="{% url 'user_list' %}" class="btn btn-secondary mt-3">Retour à la liste</a>
 <!--   
             <div class="alert alert-danger mt-3" role="alert">
 
@@ -46,26 +44,26 @@
         <form  method="post" class="mt-4">
           {% csrf_token %}
             <div class="form-colmn">
-              <div class="form-group row">
+              <div class="form-group row mt-4">
                 <label for="username" class="col-md-2 col-form-label">Username :</label>
                 <div class="col-md-6">
                   <input type="text" id="username" name="username" class="form-control" value="{{ user.username }}" required>
                 </div>
               </div>
-              <div class="form-group row">
+              <div class="form-group row mt-4">
                 <label for="login" class="col-md-2 col-form-label">E-mail :</label>
                 <div class="col-md-6">
                   <input type="email" id="email" name="email" class="form-control"  value="{{ user.email }}" required>
                 </div>
               </div>
-              <div class="form-group row">
+              <div class="form-group row mt-4">
                 <label for="password" class="col-md-2 col-form-label">Mot de passe :</label>
                 <div class="col-md-6">
                   <input type="password" id="password" name="password" class="form-control"  value="{{ user.password }}" required>
                 </div>
               </div>
   
-              <div class="form-group row">
+              <div class="form-group row mt-4">
                 <label for="profile" class="col-md-2 col-form-label">Rôle :</label>
                 <div class="col-md-6">
                   <select name="role" id="profile" class="form-control " required>
@@ -76,8 +74,9 @@
                     </select>
                 </div>
               </div>
-              <div class="form-group col-md-4 mt-4">
-                <button type="submit" class="btn btn-primary mb-4 float-right">Enregistrer</button>
+              <div class="form-group mt-5 ms-5">
+                <button type="submit" class="btn btn-primary ms-5">Enregistrer</button>
+                <a href="{% url 'user_list' %}" class="btn btn-outline-secondary ms-3 ">Annuler</a>
               </div>
             </div>
           </form>
