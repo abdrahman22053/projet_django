@@ -13,6 +13,7 @@
         <th scope="col">Nom </th>
         <th scope="col">E-mail</th>
         <th scope="col">Rôle</th> 
+        <th scope="col">Chef</th> 
         <th scope="col" colspan="2">Actions</th>
       </tr>
     </thead>
@@ -22,6 +23,7 @@
           <td>{{ user.username }} </td>
           <td>{{ user.email }}</td>
           <td>{{ user.userprofile.role }}</td>
+          <td>{{ user.userprofile.chef }}</td>
           <td>
             <a href="{% url 'user_update' user.id %}" class="btn btn-info" >Modifier</a>
             <a href="{% url 'user_delete' user.id %}" class="btn btn-danger">Supprimer</a>
@@ -34,4 +36,4 @@
 
 
 
-{% endblock %}
+{% endblock content %}

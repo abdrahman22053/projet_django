@@ -74,6 +74,17 @@
                     </select>
                 </div>
               </div>
+              <div class="form-group row mt-4">
+                <label for="chef" class="col-md-2 col-form-label">Chef :</label>
+                <div class="col-md-6">
+                    <select name="chef" id="chef" class="form-control">
+                        <option selected disabled> Sélectionnez un chef </option>
+                        {% for profile in chef_profiles %}
+                            <option value="{{ profile.user.id }}">{{ profile.user.username }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
               <div class="form-group mt-5 ms-5">
                 <button type="submit" class="btn btn-primary ms-5">Enregistrer</button>
                 <a href="{% url 'user_list' %}" class="btn btn-outline-secondary ms-3 ">Annuler</a>
