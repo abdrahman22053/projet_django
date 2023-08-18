@@ -11,10 +11,16 @@ from django.contrib.auth.models import User
 
 
 @login_required(login_url='signin')
+
 def file_list(request):
-    files = UploadedFile.objects.all()
+    user = request.user
+    print(user)
+      # Récupérer les fichiers auxquels l'utilisateur a accès
+    accessible_files = UploadedFile.objects.filter(fileaccess__user=user, fileaccess__has_access=True)
+    print(accessible_files)
+    #files = UploadedFile.objects.all()
     role = request.user.userprofile.role 
-    return render(request, 'cruds/file_list.html', {'files':files, 'user_role': role})
+    return render(request, 'cruds/file_list.html', {'files':accessible_files, 'user_role': role})
 @login_required(login_url='signin')
 
 
@@ -42,8 +48,9 @@ def upload_file(request):
             
             # Enregistrer les droits d'accès dans la base de données
             for user in users_with_access:
-                FileAccess.objects.create(user=user, file=uploaded_file)
-
+                file_access = FileAccess.objects.create(user=user, file=uploaded_file)                
+                file_access.has_access = True  
+                file_access.save()
 
             return HttpResponseRedirect(reverse('file_list'))
         else:

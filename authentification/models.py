@@ -13,12 +13,8 @@ class UserProfile(models.Model):
     chef = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='subordinates')
     
     def __str__(self):
-        return f"{self.user.username} - {self.role}"
+        return f"{self.user.username}"
 
 
 
-class Role(models.Model):
-    name = models.CharField(max_length=50)
 
-    def __str__(self):
-        return self.name

@@ -20,3 +20,8 @@ class UploadedFile(models.Model):
 class FileAccess(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     file = models.ForeignKey(UploadedFile, on_delete=models.CASCADE)
+    has_access = models.BooleanField(default=False)
+
+
+    def __str__(self):
+        return f"{self.user} - {self.file}"
