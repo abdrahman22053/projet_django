@@ -126,13 +126,14 @@
   
             <ul class="menu-inner py-1">
               <!-- Dashboard -->
+              {% if user_rloe == "Directeur de l'informatique" %}
               <li class="menu-item active">
                 <a href="{% url 'user_list' %}" class="menu-link">
                   <i class="menu-icon tf-icons bx bx-home-circle"></i>
                   <div data-i18n="Analytics">Les utilisateurs</div>
                 </a>
               </li>
-  
+              {% enif %}
               <!-- Layouts -->
 
                 
